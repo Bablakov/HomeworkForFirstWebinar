@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Task3.Example
 {
-    public class Bootstrap : MonoBehaviour
+    public class Example : MonoBehaviour
     {
         [SerializeField] private Trader _trader;
 
