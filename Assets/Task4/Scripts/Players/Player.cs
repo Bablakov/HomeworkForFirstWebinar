@@ -15,10 +15,11 @@ namespace Task4.Players
 
         private GameInput _gameInput;
         private CharacterController _characterController;
+        private bool _isEnabled;
 
         private void Update()
         {
-            if (_gameInput.CanMovement)
+            if (_isEnabled && _gameInput.CanMovement)
                 _characterController.Move(_gameInput.GetDirectionMovememt() * _speed * Time.deltaTime);
         }
 
@@ -32,6 +33,16 @@ namespace Task4.Players
         public void ReactBallBurster(Ball ball)
         {
             BurstedBall?.Invoke(ball);
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

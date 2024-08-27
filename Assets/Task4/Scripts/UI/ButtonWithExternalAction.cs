@@ -6,7 +6,7 @@ public class ButtonWithExternalAction : MonoBehaviour
 {
     private Button _button;
 
-    public void Initialize(UnityAction actionExitPanel)
+    public void Initialize(params UnityAction[] actionExitPanel)
     {
         GetComponent();
         AddMethodInEventClick(actionExitPanel);
@@ -17,8 +17,9 @@ public class ButtonWithExternalAction : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    protected void AddMethodInEventClick(UnityAction action)
+    protected void AddMethodInEventClick(UnityAction[] actions)
     {
-        _button.onClick.AddListener(action);
+        foreach (var action in actions )
+            _button.onClick.AddListener(action);
     }
 }

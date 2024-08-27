@@ -1,6 +1,4 @@
-using System;
 using Task4.Controllers;
-using Task4.Enums;
 using UnityEngine;
 
 public class StartPanel : MonoBehaviour
@@ -8,23 +6,14 @@ public class StartPanel : MonoBehaviour
     [SerializeField] private ButtonWithExternalAction _buttonStartAllBurst;
     [SerializeField] private ButtonWithExternalAction _buttonStartOneColor;
 
-    public event Action<TypeStart> StartedGame;
-
     public void Initialize(GameController gameController)
     {
-        _buttonStartAllBurst.Initialize(StartAllBurst);
-        _buttonStartOneColor.Initialize(StartOneColor);
+        _buttonStartAllBurst.Initialize(StartGame, gameController.StartGameWithDestroyAllBall);
+        _buttonStartOneColor.Initialize(StartGame, gameController.StartGameWithDestroyAllBallOneColor);
     }
 
-    private void StartAllBurst()
+    private void StartGame()
     {
-        StartedGame?.Invoke(TypeStart.AllBurst);
-        Disable();
-    }
-
-    private void StartOneColor()
-    {
-        StartedGame?.Invoke(TypeStart.OneColorBurst);
         Disable();
     }
 

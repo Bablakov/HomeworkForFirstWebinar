@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
 using Task4.Players;
 using Task4.Balls;
-using Task4.Enums;
 using UnityEngine;
 using Task4.Interfaces;
 using Task4.VictoryDeterminant;
 using General.Input;
-using Assets.Task4.Scripts.Interfaces;
-using System.Collections;
 
 namespace Task4.Controllers
 {
-    public class GameController : MonoBehaviour, IGameStarter
+    public class GameController : MonoBehaviour
     {
-        [SerializeField] private List<Ball> _balls;
         [SerializeField] private Player _player;
+        [SerializeField] private List<Ball> _balls;
         [SerializeField] private StartPanel _startPanel;
 
         private IVictoryDeterminant _victoryDeterminant;
@@ -26,21 +23,22 @@ namespace Task4.Controllers
             _startPanel.Initialize(this);
         }
 
-        public void GameStart<IVictoryDeterminant>()
+        private void OnDestroy()
         {
-            /*switch(IVictoryDeterminant)
-                
-            _victoryDeterminant = new IVictoryDeterminant(_balls, _player);*/
+            Unsubscribe();
         }
 
         public void StartGameWithDestroyAllBall()
         {
+            _victoryDeterminant = new AllBurstVictory(_balls, _player);
+            _player.Enable();
             Subscribe();
         }
 
         public void StartGameWithDestroyAllBallOneColor()
         {
             _victoryDeterminant = new OneColorVictory(_balls, _player);
+            _player.Enable();
             Subscribe();
         }
 
@@ -59,17 +57,20 @@ namespace Task4.Controllers
         private void OnWonGame()
         {
             Debug.Log("Победа!!!");
+            _player.Disable();
         }
 
         private void OnLostGame()
         {
             Debug.Log("Поражение (((");
+            _player.Disable();
         }
 
         private void PlayerInitialize()
         {
             GameInput gameInput = new GameInput();
             _player.Initialize(gameInput);
+            _player.Disable();
         }
     }
 }
